@@ -3,12 +3,12 @@
 export USER="${USER:-$(whoami)}"
 export GROUP="${GROUP:-"$USER"}"
 
-if ! getent passwd "$USER"
+if ! getent passwd "$USER" > /dev/null
 then
     useradd --system "$USER"
 fi
 
-if ! getent group "$GROUP"
+if ! getent group "$GROUP" > /dev/null
 then
     groupadd --system "$GROUP"
 fi
