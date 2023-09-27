@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -10,7 +10,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 VOLUME ["/data/files"]
 
-RUN mkdir /data/temp \
+RUN mkdir -p /data/temp \
  && cp /etc/ssl/private/ssl-cert-snakeoil.key /etc/nginx/ssl.key \
  && cp /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/nginx/ssl.pem \
  && echo "" > /etc/nginx/nginx.conf \
