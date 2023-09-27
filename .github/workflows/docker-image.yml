@@ -15,7 +15,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: |
-      run: |
         image_name="ghcr.io/pschichtel/nginx-webdav:bookworm"
         podman build -t "$image_name" .
         podman push "$image_name"
