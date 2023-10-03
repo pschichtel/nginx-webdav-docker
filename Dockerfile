@@ -17,5 +17,7 @@ RUN mkdir -p /data/temp \
  && chmod 444 /etc/nginx/ssl.key \
  && chmod -R 777 /etc/nginx/nginx.conf /data/temp /var/lib/nginx /var/log/nginx
 
+ENV CLIENT_MAX_BODY_SIZE="2M"
+
 CMD ["/docker-entrypoint.sh"]
 
