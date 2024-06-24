@@ -15,7 +15,22 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: |
-        image_name="ghcr.io/pschichtel/nginx-webdav:bookworm"
-        podman build -t "$image_name" .
-        podman push "$image_name"
+        codename="bookworm"
+        repo_name="ghcr.io/pschichtel/nginx-webdav"
+        tmp_image_name="$repo_name:latest"
+        podman build -t --build-arg CODENAME="$codename" "$tmp_image_name" .
+        version="$(podman run --rm "$tmp_image_name" nginx -v 2>&1 | cut -d'/' -f2)"
+        major_version="$(echo "$version" | cut -d'.' -f1)"
+        minor_version="$(echo "$version" | cut -d'.' -f2)"
+        codename_image_name="$repo_name:$codename"
+        version_image_name="$repo_name:$version-$codename"
+        minor_version_image_name="$repo_name:$major_version.$minor_version-$codename"
+        major_version_image_name="$repo_name:$major_version-$codename"
+        podman tag "$tmp_image_name" "$codename_image_name" "$version_image_name" "$minor_version_image_name" "$major_version_image_name"
+        podman push "$codename_image_name"
+        podman push "$version_image_name"
+        podman push "$minor_version_image_name"
+        podman push "$major_version_image_name"
+
+
 

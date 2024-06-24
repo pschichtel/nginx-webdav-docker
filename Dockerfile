@@ -1,4 +1,6 @@
-FROM debian:bookworm-slim
+ARG CODENAME=bookworm
+
+FROM debian:$CODENAME-slim
 
 ENV DEBIAN_FRONTEND noninteractive
 
